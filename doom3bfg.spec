@@ -1,6 +1,6 @@
 Name:           doom3bfg
 Version:        1.1400
-Release:        1%{?dist}
+Release:        2
 Summary:        Doom 3 BFG Edition
 Group:          Amusements/Games
 License:        Proprietary
@@ -61,5 +61,8 @@ fi
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %changelog
+* Thu Jul 02 2020 Simone Caronni <negativo17@gmail.com> - 1.1400-2
+- Remove dist tag.
+
 * Fri Nov 15 2013 Simone Caronni <negativo17@gmail.com> - 1.1400-1
 - First build.
