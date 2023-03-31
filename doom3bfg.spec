@@ -1,8 +1,7 @@
 Name:           doom3bfg
 Version:        1.1400
-Release:        2
+Release:        3
 Summary:        Doom 3 BFG Edition
-Group:          Amusements/Games
 License:        Proprietary
 URL:            http://www.idsoftware.com/
 BuildArch:      noarch
@@ -12,7 +11,7 @@ Source0:        %{name}.tar.gz
 Source1:	    %{name}-%{version}.tar.xz
 
 BuildRequires:  desktop-file-utils
-BuildRequires:  tar
+
 Requires:       doom3bfg-engine >= %{version}
 
 %description
@@ -36,12 +35,15 @@ seats.
 
 %prep
 %setup -q -c -n doom3bfg -a 1
-mv base ./%{_datadir}/%{name}/
 
 %install
 cp -fr usr %{buildroot}
+cp -fr base %{buildroot}/%{_datadir}/%{name}/
+
+%check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 
+%if 0%{?rhel} == 7
 %post
 /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
 
@@ -53,6 +55,7 @@ fi
 
 %posttrans
 /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
+%endif
 
 %files
 %{_bindir}/%{name}
@@ -61,6 +64,9 @@ fi
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %changelog
+* Fri Mar 31 2023 Simone Caronni <negativo17@gmail.com> - 1.1400-3
+- Update SPEC file.
+
 * Thu Jul 02 2020 Simone Caronni <negativo17@gmail.com> - 1.1400-2
 - Remove dist tag.
 
