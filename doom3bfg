@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+exec doom3bfg-engine +set fs_basepath "/usr/share/doom3bfg" "$@"

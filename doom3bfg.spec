@@ -1,18 +1,24 @@
 Name:           doom3bfg
 Version:        1.1400
-Release:        3
+Release:        4
 Summary:        Doom 3 BFG Edition
 License:        Proprietary
 URL:            http://www.idsoftware.com/
 BuildArch:      noarch
 
-Source0:        %{name}.tar.gz
 # Doom 3 BFG Edition: Retail game data
-Source1:	    %{name}-%{version}.tar.xz
+Source0:        %{name}-%{version}.tar.xz
+Source1:        %{name}.desktop 
+Source2:        %{name}
+Source3:        doom3bfg-24.png
+Source4:        doom3bfg-32.png
+Source5:        doom3bfg-48.png
+Source6:        doom3bfg-256.png
 
 BuildRequires:  desktop-file-utils
 
 Requires:       doom3bfg-engine >= %{version}
+Requires:       doom3bfg-lights-data >= 1.3.0
 
 %description
 Developed by id Software, the original team responsible for the franchise
@@ -34,28 +40,21 @@ completely new storyline that will have players once again on the edge of their
 seats. 
 
 %prep
-%setup -q -c -n doom3bfg -a 1
+%setup -q -c -n doom3bfg
 
 %install
-cp -fr usr %{buildroot}
-cp -fr base %{buildroot}/%{_datadir}/%{name}/
+mkdir -p %{buildroot}%{_datadir}/%{name}
+cp -fr base %{buildroot}%{_datadir}/%{name}/
+
+install -p -m 0644 -D %{SOURCE1} %{buildroot}%{_datadir}/applications/%{name}.desktop
+install -p -m 0755 -D %{SOURCE2} %{buildroot}%{_bindir}/%{name}
+install -p -m 0644 -D %{SOURCE3} %{buildroot}%{_datadir}/icons/hicolor/24x24/apps/%{name}.png
+install -p -m 0644 -D %{SOURCE4} %{buildroot}%{_datadir}/icons/hicolor/32x32/apps/%{name}.png
+install -p -m 0644 -D %{SOURCE5} %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+install -p -m 0644 -D %{SOURCE6} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
 
 %check
 desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
-
-%if 0%{?rhel} == 7
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-%posttrans
-/usr/bin/gtk-update-icon-cache -f %{_datadir}/icons/hicolor &>/dev/null || :
-%endif
 
 %files
 %{_bindir}/%{name}
@@ -64,6 +63,10 @@ fi
 %{_datadir}/icons/hicolor/*/apps/%{name}.*
 
 %changelog
+* Wed Jun 28 2023 Simone Caronni <negativo17@gmail.com> - 1.1400-4
+- Add tarball content list and declare as sources the single extra files.
+- Drop EL7 support.
+
 * Fri Mar 31 2023 Simone Caronni <negativo17@gmail.com> - 1.1400-3
 - Update SPEC file.
 

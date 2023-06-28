@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Doom 3 BFG Edition
+Comment=First person shooter
+Exec=doom3bfg
+Icon=doom3bfg
+Terminal=false
+Type=Application
+Categories=Game;ActionGame;
